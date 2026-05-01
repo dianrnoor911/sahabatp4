@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Sahabat P4</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="assets/js/main.js" defer></script>
+    <!-- Flatpickr (Premium Calendar) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/material_blue.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+</head>
+<body>
+
+    <!-- LOGIN SCREEN -->
+    <div id="loginScreen" class="admin-login-screen">
+        <div class="login-box">
+            <div class="login-logo">
+                <svg width="40" height="40" viewBox="0 0 28 28" fill="none">
+                    <path d="M14 3C8 3 4 8 4 14s4 11 10 11 10-5 10-11S20 3 14 3z" fill="#1a5fa8"/>
+                    <path d="M9 14l3.5 3.5L19 10" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <h2>Admin Login</h2>
+            <p>Sahabat P4 Jakarta Pusat</p>
+            <form id="loginForm">
+                <div class="input-group">
+                    <label>Email</label>
+                    <input type="email" id="loginEmail" required placeholder="admin@p4jaksel.id">
+                </div>
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn-login" id="loginBtn">Login</button>
+                <p id="loginError" class="error-msg"></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- DASHBOARD SCREEN -->
+    <div id="dashboardScreen" class="admin-dashboard hidden">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h3>Sahabat P4</h3>
+                <small>Admin Control Panel</small>
+            </div>
+            <ul class="sidebar-menu">
+                <li class="active" data-tab="tab-dashboard">📊 Dashboard</li>
+                <li data-tab="tab-jadwal">📅 Jadwal Pelatihan</li>
+                <li data-tab="tab-materi">📚 Jelajah Materi</li>
+                <li data-tab="tab-webinar">🎥 Webinar</li>
+            </ul>
+            <div class="sidebar-footer">
+                <button id="logoutBtn" class="btn-logout" onclick="logout()">Logout</button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <!-- TAB: DASHBOARD -->
+            <section id="tab-dashboard" class="tab-content active">
+                <div class="stats-header">
+                    <h2>Ringkasan Statistik Portal</h2>
+                    <p>Pantau keterlibatan guru dan popularitas materi secara real-time.</p>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card premium-card">
+                        <span class="stat-title">Total Materi</span>
+                        <span class="stat-value" id="dash-total-materi">0</span>
+                        <small>Paket materi terbit</small>
+                    </div>
+                    <div class="stat-card premium-card">
+                        <span class="stat-title">Total Interaksi</span>
+                        <span class="stat-value" id="dash-total-views">0</span>
+                        <small>Klik materi & topik</small>
+                    </div>
+                    <div class="stat-card premium-card">
+                        <span class="stat-title">Materi Unggulan</span>
+                        <span class="stat-value" id="dash-total-featured">0</span>
+                        <small>Prioritas tampilan</small>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <!-- Popularitas Jenjang -->
+                    <div class="chart-card">
+                        <h3>📊 Popularitas Jenjang</h3>
+                        <div id="jenjang-stats" style="margin-top:15px;">
+                            <p style="color:#64748b; font-size:12px;">Menghitung data...</p>
+                        </div>
+                    </div>
+                    <!-- Topik Terpopuler -->
+                    <div class="chart-card">
+                        <h3>🔥 Topik Trending</h3>
+                        <div id="trending-stats" style="margin-top:15px;">
+                            <p style="color:#64748b; font-size:12px;">Menganalisa klik...</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB: JADWAL -->
+            <section id="tab-jadwal" class="tab-content">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span class="stat-title">Total Pelatihan</span>
+                        <span class="stat-value" id="stat-total">0</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-title">Pendaftaran Aktif</span>
+                        <span class="stat-value" id="stat-active">0</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-title">Pendaftaran Tutup</span>
+                        <span class="stat-value" id="stat-closed">0</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-title">Total Kuota</span>
+                        <span class="stat-value" id="stat-kuota">0</span>
+                    </div>
+                </div>
+
+                <div class="header-action">
+                    <h2>Kelola Jadwal Pelatihan</h2>
+                    <div style="display:flex; gap:10px;">
+                        <input type="text" id="adminSearchInput" placeholder="Cari pelatihan..." oninput="loadTable()">
+                        <button class="btn-add" onclick="openModal('modalJadwal')">+ Tambah Jadwal</button>
+                    </div>
+                </div>
+                <div class="table-wrap">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th onclick="sortAdminTable('judul')" style="cursor:pointer;">Judul Pelatihan ↕</th>
+                                <th onclick="sortAdminTable('tglMulai')" style="cursor:pointer;">Tanggal ↕</th>
+                                <th onclick="sortAdminTable('jenjang')" style="cursor:pointer;">Jenjang ↕</th>
+                                <th onclick="sortAdminTable('kuota')" style="cursor:pointer;">Kuota ↕</th>
+                                <th onclick="sortAdminTable('manualStatus')" style="cursor:pointer;">Status ↕</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-jadwal">
+                            <tr><td colspan="6">Memuat data...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- TAB: MATERI -->
+            <section id="tab-materi" class="tab-content">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span class="stat-title">Total Paket Materi</span>
+                        <span class="stat-value" id="stat-materi-total">0</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-title">Total Topik Pembelajaran</span>
+                        <span class="stat-value" id="stat-materi-topik">0</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-title">Jenjang Terbanyak</span>
+                        <span class="stat-value" id="stat-materi-jenjang">-</span>
+                    </div>
+                </div>
+
+                <div class="header-action">
+                    <h2>Kelola Jelajah Materi</h2>
+                    <div style="display:flex; gap:10px;">
+                        <input type="text" id="adminMateriSearchInput" placeholder="Cari materi..." oninput="loadTableMateri()">
+                        <button class="btn-add" onclick="openModal('modalMateri', 'Tambah Materi Baru')">+ Tambah Materi</button>
+                    </div>
+                </div>
+                <div class="table-wrap">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th onclick="sortMateriTable('judul')" style="cursor:pointer;">Judul Materi ↕</th>
+                                <th onclick="sortMateriTable('jenjang')" style="cursor:pointer;">Jenjang ↕</th>
+                                <th onclick="sortMateriTable('topikCount')" style="cursor:pointer;">Jumlah Topik ↕</th>
+                                <th onclick="sortMateriTable('status')" style="cursor:pointer;">Status ↕</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-materi">
+                            <tr><td colspan="5">Memuat data...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            
+            <!-- TAB: WEBINAR -->
+            <section id="tab-webinar" class="tab-content">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span class="stat-title">Total Webinar</span>
+                        <span class="stat-value" id="stat-webinar-total">0</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-title">Mendatang</span>
+                        <span class="stat-value" id="stat-webinar-upcoming">0</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-title">Selesai</span>
+                        <span class="stat-value" id="stat-webinar-done">0</span>
+                    </div>
+                </div>
+
+                <div class="header-action">
+                    <h2>Kelola Webinar</h2>
+                    <button class="btn-add" onclick="openModal('modalWebinar', 'Tambah Webinar Baru')">+ Tambah Webinar</button>
+                </div>
+
+                <div class="table-wrap">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Judul Webinar</th>
+                                <th>Tanggal & Waktu</th>
+                                <th>Narasumber</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-webinar">
+                            <tr><td colspan="5">Memuat data webinar...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- MODAL JADWAL -->
+    <div class="modal-overlay" id="modalJadwal">
+        <div class="modal-card">
+            <h3 id="modalJadwalTitle">Tambah Jadwal</h3>
+            <form id="formJadwal">
+                <input type="hidden" id="jadwalId">
+                <div class="input-group">
+                    <label>Judul Pelatihan</label>
+                    <input type="text" id="j_judul" required>
+                </div>
+                <div class="input-group-row" style="display: flex; gap: 10px; margin-bottom: 15px;">
+                    <div style="flex: 1;">
+                        <label>Tanggal Mulai</label>
+                        <input type="text" id="j_tgl_mulai" placeholder="Pilih Tanggal..." required>
+                    </div>
+                    <div style="flex: 1;">
+                        <label>Tanggal Selesai</label>
+                        <input type="text" id="j_tgl_selesai" placeholder="Pilih Tanggal..." required>
+                    </div>
+                </div>
+                <!-- Hidden input untuk menyimpan format teks lama agar sistem tidak error -->
+                <input type="hidden" id="j_tanggal">
+
+                <div class="input-group">
+                    <label>Jenjang</label>
+                    <select id="j_jenjang" onchange="updateImagePreview(this.value)">
+                        <option value="PAUD">PAUD</option>
+                        <option value="SD">SD</option>
+                        <option value="SMP">SMP</option>
+                        <option value="SMA">SMA</option>
+                        <option value="SMK">SMK</option>
+                        <option value="Kesetaraan">Kesetaraan</option>
+                        <option value="SLB">SLB</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Preview Gambar Jenjang</label>
+                    <div id="jenjangPreviewWrap" style="background:#f1f5f9; padding:10px; border-radius:6px; text-align:center;">
+                        <img id="j_preview_img" src="https://i.ibb.co.com/gMjGGm9C/1.png" style="max-width:100%; height:100px; border-radius:4px; object-fit:cover;">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Kuota</label>
+                    <input type="number" id="j_kuota" required>
+                </div>
+                <div class="input-group">
+                    <label>Link Pendaftaran</label>
+                    <input type="url" id="j_link" value="https://jaklat.jakarta.go.id/login" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-cancel" onclick="closeModal('modalJadwal')">Batal</button>
+                    <button type="submit" class="btn-save">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL MATERI -->
+    <div class="modal-overlay" id="modalMateri">
+        <div class="modal-card" style="max-width: 950px; width: 95%;">
+            <h3 id="modalMateriTitle" style="margin-bottom: 20px; border-bottom: 2px solid #f1f5f9; padding-bottom: 15px;">Tambah Materi</h3>
+            <form id="formMateri">
+                <input type="hidden" id="materiId">
+                
+                <div style="display: grid; grid-template-columns: 380px 1fr; gap: 30px; align-items: start;">
+                    <!-- KOLOM KIRI: INFO UTAMA -->
+                    <div style="background: #f8fafc; padding: 20px; border-radius: 12px; border: 1px solid #e2e8f0;">
+                        <div class="input-group">
+                            <label>Judul Materi</label>
+                            <input type="text" id="m_judul" required placeholder="Contoh: Pelatihan Pendidikan Inklusif">
+                        </div>
+                        <div class="input-group">
+                            <label>Deskripsi Singkat</label>
+                            <textarea id="m_deskripsi" rows="4" style="width:100%; border:1px solid #e2e8f0; border-radius:6px; padding:10px; font-size:13px;" required></textarea>
+                        </div>
+                        <div class="input-group">
+                            <label>URL Gambar Materi</label>
+                            <input type="url" id="m_gambar" placeholder="https://ibb.co/..." style="width:100%;">
+                            <small style="font-size:11px; color:#64748b; display:block; margin-top:5px;">Contoh: Paste link dari Postimg atau ImgBB</small>
+                        </div>
+                        <div class="input-group">
+                            <label>Jenjang Pendidikan</label>
+                            <div id="m_jenjang_chips" style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px;">
+                                <label class="jenjang-cb"><input type="checkbox" name="m_jenjang" value="PAUD"> PAUD</label>
+                                <label class="jenjang-cb"><input type="checkbox" name="m_jenjang" value="SD"> SD</label>
+                                <label class="jenjang-cb"><input type="checkbox" name="m_jenjang" value="SMP"> SMP</label>
+                                <label class="jenjang-cb"><input type="checkbox" name="m_jenjang" value="SMA"> SMA</label>
+                                <label class="jenjang-cb"><input type="checkbox" name="m_jenjang" value="SMK"> SMK</label>
+                                <label class="jenjang-cb"><input type="checkbox" name="m_jenjang" value="SLB"> SLB</label>
+                                <label class="jenjang-cb"><input type="checkbox" name="m_jenjang" value="Kesetaraan"> Kesetaraan</label>
+                            </div>
+                        </div>
+
+                        <div class="input-group" style="margin-top: 20px;">
+                            <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; background: #fffbeb; padding: 12px; border-radius: 8px; border: 1px solid #fef3c7; transition: 0.2s;">
+                                <input type="checkbox" id="m_is_featured" style="width: 18px; height: 18px;">
+                                <span style="font-size: 14px; font-weight: 700; color: #92400e;">⭐ Jadikan Materi Unggulan</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- KOLOM KANAN: DAFTAR TOPIK -->
+                    <div style="display: flex; flex-direction: column; height: 100%;">
+                        <label style="font-weight: 700; color: #1e293b; display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                            Daftar Topik Pembelajaran
+                            <span style="font-size: 11px; font-weight: normal; color: #64748b; background: #f1f5f9; padding: 2px 8px; border-radius: 4px;">Gunakan ▲ ▼ untuk urutan</span>
+                        </label>
+                        <div id="topikListContainer" style="max-height: 480px; overflow-y: auto; background: #fff; border-radius: 12px; padding: 15px; border: 2px dashed #e2e8f0;">
+                            <!-- Topik items will be added here -->
+                        </div>
+                        <button type="button" class="btn-add-outline" style="width: 100%; margin-top: 15px; background: #fff; border: 2px solid #6366f1; color: #6366f1; font-weight: 700;" onclick="addTopikRow()">+ Tambah Topik Baru</button>
+                    </div>
+                </div>
+
+                <div class="modal-footer" style="margin-top: 30px; border-top: 1px solid #f1f5f9; padding-top: 20px;">
+                    <button type="button" class="btn-cancel" onclick="closeModal('modalMateri')">Batal</button>
+                    <button type="submit" class="btn-save">Simpan Perubahan Materi</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL WEBINAR -->
+    <div class="modal-overlay" id="modalWebinar">
+        <div class="modal-card" style="max-width: 700px;">
+            <h3 id="modalWebinarTitle">Tambah Webinar</h3>
+            <form id="formWebinar">
+                <input type="hidden" id="webinarId">
+                
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
+                    <!-- Sisi Kiri -->
+                    <div>
+                        <div class="input-group">
+                            <label>Judul Webinar</label>
+                            <input type="text" id="w_judul" required placeholder="Contoh: Webinar Pemanfaatan AI...">
+                        </div>
+                        <div class="input-group-row" style="display:flex; gap:10px;">
+                            <div style="flex:1;">
+                                <label>Tanggal</label>
+                                <input type="date" id="w_tanggal" required>
+                            </div>
+                            <div style="flex:1;">
+                                <label>Waktu</label>
+                                <input type="text" id="w_waktu" placeholder="09:00 - 12:00 WIB">
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label>Narasumber</label>
+                            <input type="text" id="w_narasumber" placeholder="Nama Narasumber">
+                        </div>
+                        <div class="input-group">
+                            <label>Thumbnail (URL Gambar)</label>
+                            <input type="text" id="w_gambar" placeholder="https://...">
+                        </div>
+                    </div>
+
+                    <!-- Sisi Kanan -->
+                    <div>
+                        <div class="input-group">
+                            <label>Status</label>
+                            <select id="w_status">
+                                <option value="upcoming">Segera Hadir (Upcoming)</option>
+                                <option value="live">Sedang Berlangsung (Live)</option>
+                                <option value="done">Selesai (Done)</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label>Link Pendaftaran (Jika Belum Selesai)</label>
+                            <input type="url" id="w_linkDaftar" placeholder="https://bit.ly/...">
+                        </div>
+                        <div class="input-group">
+                            <label>Link Rekaman Video (Jika Sudah Selesai)</label>
+                            <input type="url" id="w_linkVideo" placeholder="https://youtube.com/...">
+                        </div>
+                        <div class="input-group">
+                            <label>Link Materi (Unduhan)</label>
+                            <input type="url" id="w_linkMateri" placeholder="https://drive.google.com/...">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer" style="margin-top: 20px;">
+                    <button type="button" class="btn-cancel" onclick="closeModal('modalWebinar')">Batal</button>
+                    <button type="submit" class="btn-save">Simpan Webinar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL KONFIRMASI HAPUS -->
+    <div class="modal-overlay" id="modalConfirm">
+        <div class="modal-card" style="max-width: 400px; text-align: center;">
+            <div style="color: #ef4444; margin-bottom: 15px;">
+                <svg width="64" height="64" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </div>
+            <h3 id="confirmTitle" style="margin-bottom: 10px;">Hapus Data Ini?</h3>
+            <p style="color: #64748b; font-size: 14px; margin-bottom: 25px;">Data yang dihapus tidak bisa dikembalikan. Anda yakin ingin melanjutkan?</p>
+            <div style="display: flex; gap: 10px;">
+                <button type="button" class="btn-cancel" onclick="closeModal('modalConfirm')" style="flex: 1;">Batal</button>
+                <button id="confirmDeleteBtn" class="btn-delete" style="flex: 1; margin: 0; padding: 12px; font-weight: bold;">Ya, Hapus</button>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
+
+    <!-- App Logic -->
+    <script src="assets/js/firebase-config.js"></script>
+    <script src="assets/js/admin.js"></script>
+</body>
+</html>

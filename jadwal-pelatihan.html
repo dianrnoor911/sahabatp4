@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Jadwal Pelatihan – Sahabat P4</title>
+    
+    <!-- CSS Shared & Page Specific -->
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/jadwal.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+<!-- Header Placeholder -->
+<header id="main-header"></header>
+
+<main class="page-wrapper">
+    <p class="page-title">Jadwal Pelatihan</p>
+    <p class="page-subtitle">Temukan jadwal pelatihan sesuai jenjang dan periode pelaksanaan.</p>
+
+    <div class="top-bar-multi">
+      <div class="top-bar-row">
+        <div class="search-wrap">
+          <input type="text" id="searchInput" placeholder="Cari nama pelatihan..." oninput="render()" />
+        </div>
+        <div class="filter-wrap" id="filterWrap"></div>
+      </div>
+
+      <div class="top-bar-row secondary">
+        <div class="status-filters" id="statusFilterWrap">
+          <span class="filter-label">Status:</span>
+          <button class="filter-btn status-btn active" onclick="setStatusFilter('semua', this)">Semua</button>
+          <button class="filter-btn status-btn btn-open" onclick="setStatusFilter('buka', this)">Dibuka</button>
+          <button class="filter-btn status-btn btn-closed" onclick="setStatusFilter('tutup', this)">Ditutup</button>
+        </div>
+
+        <div class="sort-wrap">
+          <span class="filter-label">Urutkan:</span>
+          <select id="sortSelect" onchange="setSort(this.value)">
+            <option value="tanggal">Waktu Terdekat</option>
+            <option value="nama">Nama (A-Z)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div id="mainContent"></div>
+</main>
+
+<footer class="site-footer">
+    <div class="footer-container">
+        <div class="footer-main">
+            <!-- Kolom 1: Profil -->
+            <div class="footer-col about">
+                <div class="footer-col-title">Tentang Sahabat P4</div>
+                <p class="footer-desc">
+                    Situs digital dan pusat sumber belajar digital dari <strong>P4 Jakarta Selatan</strong>. Kami berkomitmen untuk meningkatkan kompetensi pendidik secara berkelanjutan.
+                </p>
+            </div>
+
+            <!-- Grouping Right Side (Kontak + Media Sosial) -->
+            <div class="footer-right-group">
+                <!-- Kolom 2: Kontak -->
+                <div class="footer-col">
+                    <div class="footer-col-title">Alamat Kami</div>
+                    <p class="footer-desc">
+                        Jl. Camat Gabun 2, Lenteng Agung, Kec. Jagakarsa, Jakarta Selatan 12610
+                    </p>
+                </div>
+
+                <!-- Kolom 3: Media Sosial -->
+                <div class="footer-col">
+                    <div class="footer-col-title">Ikuti Kami</div>
+                    <div class="footer-social-links">
+                        <a href="https://www.instagram.com/p4jaksel/" class="social-icon-btn" title="Instagram" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.youtube.com/@p4jaksel" class="social-icon-btn" title="YouTube" target="_blank"><i class="fab fa-youtube"></i></a>
+                        <a href="https://jaklat.jakarta.go.id/login" class="social-icon-btn" title="Website" target="_blank"><i class="fas fa-link"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="footer-copyright">
+                &copy; 2026 Sahabat P4 &ndash; Jakarta Selatan. All Rights Reserved.
+            </div>
+        </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Firebase SDK (Compat Version) -->
+<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
+
+<!-- JS Shared & Page Specific -->
+<script src="assets/js/main.js"></script>
+<script src="assets/js/jadwal-pelatihan.js"></script>
+
+</body>
+</html>

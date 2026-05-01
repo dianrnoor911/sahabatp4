@@ -1,0 +1,304 @@
+/* ── HERO ── */
+.hero {
+  background: linear-gradient(135deg, #1a3560 0%, #1a5fa8 60%, #1e7fc4 100%);
+  border-radius: 16px;
+  padding: 36px 32px;
+  color: #fff;
+  margin-bottom: 36px;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 180px; height: 180px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.07);
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -30px; left: -30px;
+  width: 120px; height: 120px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.05);
+}
+
+.hero-logo {
+  width: 56px;
+  height: 56px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-title {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  margin-bottom: 6px;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-sub {
+  font-size: 14px;
+  color: rgba(255,255,255,0.82);
+  line-height: 1.65;
+  max-width: 500px;
+  margin: 0 auto 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-tag {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 14px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.25);
+  color: #fff;
+}
+
+/* ── SECTION LABEL ── */
+.section-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #8a9ab5;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 32px 0 14px;
+  padding-bottom: 6px;
+  border-bottom: 1.5px solid #eef1f6;
+}
+
+/* ── PROFIL CARD ── */
+.profil-card {
+  background: #fff;
+  border: 1px solid #dce4ef;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.profil-card-header {
+  height: 6px;
+  background: #1a5fa8;
+}
+
+.profil-card-body {
+  padding: 22px 24px;
+}
+
+.profil-card-body p {
+  font-size: 14px;
+  color: #3a4a60;
+  line-height: 1.8;
+  margin-bottom: 12px;
+}
+
+.profil-card-body p:last-child { margin-bottom: 0; }
+
+.profil-card-body strong { color: #1a3560; }
+
+/* ── STATS ROW ── */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 10px;
+}
+
+.stat-card {
+  background: #fff;
+  border: 1px solid #dce4ef;
+  border-radius: 12px;
+  padding: 18px 12px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  transition: box-shadow 0.2s;
+}
+
+.stat-card:hover { box-shadow: 0 4px 16px rgba(26,63,160,0.10); }
+
+.stat-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2px;
+}
+
+.icon-blue   { background: #d6e4f7; }
+.icon-green  { background: #d4f0e8; }
+.icon-orange { background: #fdebd4; }
+.icon-purple { background: #e9e0f8; }
+
+.stat-num {
+  font-size: 22px;
+  font-weight: 800;
+  color: #1a3560;
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 11.5px;
+  color: #5a6a80;
+  text-align: center;
+  line-height: 1.4;
+}
+
+/* ── TUGAS POKOK GRID ── */
+.tugas-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.tugas-card {
+  background: #fff;
+  border: 1px solid #dce4ef;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  transition: box-shadow 0.2s;
+}
+
+.tugas-card:hover { box-shadow: 0 4px 16px rgba(26,63,160,0.10); }
+
+.tugas-card-top { height: 6px; }
+
+.tugas-card-body {
+  padding: 16px 18px 18px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 7px;
+}
+
+.tugas-icon-wrap {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+}
+
+.tugas-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a2940;
+}
+
+.tugas-desc {
+  font-size: 13px;
+  color: #5a6a80;
+  line-height: 1.55;
+  flex: 1;
+  text-align: center;
+}
+
+/* ── JENJANG ROW ── */
+.jenjang-row {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+  justify-content: center;
+}
+
+.jenjang-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+/* ── STRUKTUR / INFO LIST ── */
+.info-list {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border: 1px solid #dce4ef;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 15px 20px;
+  border-bottom: 1px solid #eef1f6;
+  transition: background 0.15s;
+}
+
+.info-item:last-child { border-bottom: none; }
+.info-item:hover { background: #f9fbff; }
+
+.info-icon-wrap {
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.info-content { flex: 1; min-width: 0; }
+
+.info-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1a2940;
+  margin-bottom: 3px;
+}
+
+.info-value {
+  font-size: 13px;
+  color: #5a6a80;
+  line-height: 1.5;
+}
+
+@media (max-width: 700px) {
+  .tugas-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 600px) {
+  .stats-row { grid-template-columns: 1fr 1fr; }
+  .hero { padding: 28px 20px; }
+  .hero-title { font-size: 22px; }
+}

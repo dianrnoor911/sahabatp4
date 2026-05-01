@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Webinar – Sahabat P4</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/webinar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="assets/js/main.js" defer></script>
+</head>
+<body>
+
+<header id="main-header"></header>
+
+<main class="page-wrapper">
+    <div class="webinar-header-box">
+        <h1 class="page-title">Agenda Webinar</h1>
+        <p class="page-subtitle">Tingkatkan kompetensi Anda melalui sesi berbagi praktik baik bersama para ahli.</p>
+    </div>
+
+    <!-- PENCARIAN SIMPEL -->
+    <div class="search-container">
+        <div class="search-bar">
+            <i class="fas fa-search"></i>
+            <input type="text" id="webinarSearch" placeholder="Cari webinar berdasarkan judul..." onkeyup="filterWebinars()">
+        </div>
+    </div>
+
+    <!-- Grid Webinar Utama -->
+    <div class="webinar-grid" id="webinarContainer">
+        <div class="loading-spinner">Sedang memuat data dari pusat...</div>
+    </div>
+</main>
+
+<!-- MODAL VIDEO -->
+<div class="modal-overlay" id="modalVideo" onclick="closeVideoOnBg(event)">
+    <div class="modal-window">
+        <div class="modal-header">
+            <span id="videoTitle">Putar Video</span>
+            <button class="modal-close" onclick="closeVideo()">&times;</button>
+        </div>
+        <div class="modal-body-video">
+            <div id="player"></div>
+        </div>
+        <div class="modal-footer-video">
+            <a id="ytFallbackLink" href="#" target="_blank" class="btn-yt-fallback">
+                <i class="fab fa-youtube"></i> Tonton Langsung di YouTube
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL MATERI -->
+<div class="modal-overlay" id="modalDoc" onclick="closeDocOnBg(event)">
+    <div class="modal-window doc-modal">
+        <div class="modal-header">
+            <span id="docTitle">Materi Webinar</span>
+            <button class="modal-close" onclick="closeDoc()">&times;</button>
+        </div>
+        <div class="modal-body-doc">
+            <iframe id="docFrame" src="" frameborder="0"></iframe>
+        </div>
+        <div class="modal-footer">
+            <a id="docDownload" href="#" target="_blank" class="btn-download">Unduh Materi</a>
+        </div>
+    </div>
+</div>
+
+<footer class="site-footer">
+    <div class="footer-container">
+        <div class="footer-main">
+            <!-- Kolom 1: Profil -->
+            <div class="footer-col about">
+                <div class="footer-col-title">Tentang Sahabat P4</div>
+                <p class="footer-desc">
+                    Situs digital dan pusat sumber belajar digital dari <strong>P4 Jakarta Selatan</strong>. Kami berkomitmen untuk meningkatkan kompetensi pendidik secara berkelanjutan.
+                </p>
+            </div>
+
+            <!-- Grouping Right Side (Kontak + Media Sosial) -->
+            <div class="footer-right-group">
+                <!-- Kolom 2: Kontak -->
+                <div class="footer-col">
+                    <div class="footer-col-title">Alamat Kami</div>
+                    <p class="footer-desc">
+                        Jl. Camat Gabun 2, Lenteng Agung, Kec. Jagakarsa, Jakarta Selatan 12610
+                    </p>
+                </div>
+
+                <!-- Kolom 3: Media Sosial -->
+                <div class="footer-col">
+                    <div class="footer-col-title">Ikuti Kami</div>
+                    <div class="footer-social-links">
+                        <a href="https://www.instagram.com/p4jaksel/" class="social-icon-btn" title="Instagram" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.youtube.com/@p4jaksel" class="social-icon-btn" title="YouTube" target="_blank"><i class="fab fa-youtube"></i></a>
+                        <a href="https://jaklat.jakarta.go.id/login" class="social-icon-btn" title="Website" target="_blank"><i class="fas fa-link"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="footer-copyright">
+                &copy; 2026 Sahabat P4 &ndash; Jakarta Selatan. All Rights Reserved.
+            </div>
+        </div>
+        </div>
+    </div>
+</footer>
+
+<script src="https://www.youtube.com/iframe_api"></script>
+<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
+<script src="assets/js/firebase-config.js"></script>
+<script src="assets/js/webinar.js"></script>
+
+</body>
+</html>
