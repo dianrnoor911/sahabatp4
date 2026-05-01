@@ -21,10 +21,10 @@ function injectHeader() {
     const headerPlaceholder = document.getElementById('main-header');
     if (!headerPlaceholder) return;
 
-    const currentPage = window.location.pathname.split('/').pop() || 'beranda.html';
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
 
     const navItems = [
-        { name: 'Beranda', link: 'beranda.html' },
+        { name: 'Beranda', link: 'index.html' },
         { name: 'Jadwal Pelatihan', link: 'jadwal-pelatihan.html' },
         { name: 'Jelajah Materi', link: 'jelajah-materi.html' },
         { name: 'Webinar', link: 'webinar.html' },
@@ -39,7 +39,7 @@ function injectHeader() {
 
     headerPlaceholder.innerHTML = `
         <nav class="main-header">
-            <a href="beranda.html" class="header-logo">
+            <a href="index.html" class="header-logo">
                 <img src="https://i.ibb.co.com/JwPJjtf7/Folder-Google-Drive.png" alt="Logo" style="height: 50px; width: auto; object-fit: contain;">
                 <span>Sahabat P4</span>
             </a>
