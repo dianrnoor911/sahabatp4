@@ -1,4 +1,5 @@
-let paketMateri = []; 
+let paketMateri = [];
+let currentOpenMateriId = null; // Track modal yang sedang terbuka
 const colorMap = {
   PAUD:       { badge: 'badge-paud',       banner: 'banner-paud' },
   SD:         { badge: 'badge-sd',         banner: 'banner-sd' },
@@ -19,27 +20,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function initFirestore() {
     if (typeof db !== 'undefined') {
-        // console.log("Menghubungkan ke Firestore...");
         db.collection("materi").onSnapshot((snapshot) => {
             const list = [];
             snapshot.forEach(doc => {
                 let item = doc.data();
                 item.id = doc.id;
-                // Pastikan jenjang selalu berupa array
                 if (!Array.isArray(item.jenjang)) {
                     item.jenjang = item.jenjang ? [item.jenjang] : [];
                 }
                 list.push(item);
             });
-            
+
             paketMateri = list;
-            // console.log("Data diterima:", list.length, "item");
-            
+
             if (list.length === 0) {
                 const grid = document.getElementById('materiGrid');
                 if (grid) grid.innerHTML = '<p class="no-result">Database materi kosong. Silakan tambah materi di Admin Panel.</p>';
             } else {
                 filterMateri();
+                // 🔥 Jika ada modal yang terbuka, perbarui tampilan views-nya
+                if (currentOpenMateriId) {
+                    updateOpenModalViews(currentOpenMateriId);
+                }
             }
         }, (error) => {
             console.error("Firestore Error:", error);
@@ -49,6 +51,18 @@ function initFirestore() {
     } else {
         console.error("Firebase DB is not defined.");
     }
+}
+
+// ══ Update tampilan views di modal yang sedang terbuka ══
+function updateOpenModalViews(materiId) {
+    const p = paketMateri.find(x => x.id === materiId);
+    if (!p || !Array.isArray(p.topik)) return;
+    p.topik.forEach((t, idx) => {
+        const viewEl = document.getElementById(`views-${materiId}-${idx}`);
+        if (viewEl) {
+            viewEl.innerHTML = `👁️ ${t.views || 0} views`;
+        }
+    });
 }
 
 function buildBanner(jenjangArr) {
@@ -147,21 +161,30 @@ function getDirectDownloadLink(url) {
     return url;
 }
 
-// ══ ANALYTICS: Track Click ══
+// ══ ANALYTICS: Track View (dipanggil hanya sekali per klik tombol) ══
+// Simpan ID yang sudah ditandai agar tidak double-count dalam satu sesi
+const _trackedViews = new Set();
 async function trackView(materiId, topikIndex) {
-    if (typeof db === 'undefined') return;
+    if (typeof db === 'undefined' || typeof db.collection === 'undefined') return;
+    
+    // Cegah double-count: jika tombol yang sama diklik ganda dalam 2 detik, abaikan
+    const key = `${materiId}_${topikIndex}`;
+    if (_trackedViews.has(key)) return;
+    _trackedViews.add(key);
+    setTimeout(() => _trackedViews.delete(key), 2000);
+
     try {
         const docRef = db.collection("materi").doc(materiId);
         const doc = await docRef.get();
         if (doc.exists) {
             const data = doc.data();
-            const topics = data.topik || [];
+            const topics = [...(data.topik || [])];
             if (topics[topikIndex]) {
                 const currentViews = (topics[topikIndex].views || 0) + 1;
                 topics[topikIndex].views = currentViews;
                 await docRef.update({ topik: topics });
-                
-                // Update views count in DOM immediately for instant feedback
+
+                // Update tampilan di modal secara langsung (tanpa perlu tunggu onSnapshot)
                 const viewEl = document.getElementById(`views-${materiId}-${topikIndex}`);
                 if (viewEl) {
                     viewEl.innerHTML = `👁️ ${currentViews} views`;
@@ -170,6 +193,7 @@ async function trackView(materiId, topikIndex) {
         }
     } catch (e) { console.error("Gagal track view:", e); }
 }
+window.trackView = trackView;
 
 function buildFilters() {
   const list = [
@@ -202,6 +226,8 @@ function openMateriModal(id) {
   const p = paketMateri.find(x => x.id === id);
   if (!p) return;
 
+  currentOpenMateriId = id; // 🔥 Catat modal yang sedang terbuka
+
   const modalBadges = document.getElementById('modalBadges');
   const modalTitle = document.getElementById('modalTitle');
   const modalSubtitle = document.getElementById('modalSubtitle');
@@ -211,10 +237,10 @@ function openMateriModal(id) {
   if (modalTitle) modalTitle.textContent = p.judul;
   const totalTopik = Array.isArray(p.topik) ? p.topik.length : 0;
   if (modalSubtitle) modalSubtitle.textContent = totalTopik + ' topik tersedia';
-  
+
   const primJ = Array.isArray(p.jenjang) ? p.jenjang[0] : 'SD';
   const numBadge = colorMap[primJ]?.badge || 'badge-sd';
-  
+
   if (modalBody) {
       if (Array.isArray(p.topik) && p.topik.length > 0) {
           modalBody.innerHTML = p.topik.map((t, idx) => `
@@ -228,21 +254,15 @@ function openMateriModal(id) {
                 </div>
               </div>
               <div class="topik-link" style="display:flex; flex-direction:column; gap:5px;">
-                ${t.link
-                  ? `
+                ${t.link ? `
                     <button class="btn-unduh" onclick="trackView('${p.id}', ${idx}); openPdf('${t.link}', '${(t.nama || p.judul).replace(/'/g,"\\'")}')">Buka Materi</button>
-                  `
-                  : ''}
-                ${t.videoLink
-                  ? `
+                ` : ''}
+                ${t.videoLink ? `
                     <button class="btn-video" onclick="trackView('${p.id}', ${idx}); openVideoModal('${t.videoLink}', '${(t.nama || p.judul).replace(/'/g,"\\'")}')"><i class="fab fa-youtube"></i> Tonton Video</button>
-                  `
-                  : ''}
-                ${t.link
-                  ? `
-                    <a href="${getDirectDownloadLink(t.link)}" target="_blank" class="btn-download-direct" onclick="trackView('${p.id}', ${idx})" title="Download Langsung">Unduh</a>
-                  `
-                  : ''}
+                ` : ''}
+                ${t.link ? `
+                    <a href="${getDirectDownloadLink(t.link)}" target="_blank" class="btn-download-direct" title="Download Langsung">Unduh</a>
+                ` : ''}
                 ${(!t.link && !t.videoLink) ? `<span class="btn-unduh btn-disabled">Segera Hadir</span>` : ''}
               </div>
             </div>
@@ -251,7 +271,7 @@ function openMateriModal(id) {
           modalBody.innerHTML = '<p style="text-align:center; padding:20px; color:#64748b;">Belum ada topik tersedia.</p>';
       }
   }
-  
+
   const overlay = document.getElementById('overlay');
   if (overlay) overlay.classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -295,6 +315,7 @@ function closeModal() {
   const overlay = document.getElementById('overlay');
   if (overlay) overlay.classList.remove('open');
   document.body.style.overflow = '';
+  currentOpenMateriId = null; // 🔥 Reset saat modal ditutup
 }
 window.closeModal = closeModal;
 
