@@ -58,7 +58,8 @@
 .status-btn {
   font-size: 11px;
   padding: 5px 14px;
-  border: 1.5px solid #cbd5e1 !important; /* Tambahkan border agar terlihat */
+  border: 1.5px solid #cbd5e1 !important;
+  /* Tambahkan border agar terlihat */
   color: #64748b;
   background: white;
   transition: all 0.2s;
@@ -79,7 +80,8 @@
 }
 
 .btn-closed.active {
-  background: #ef4444 !important; /* Merah agar kontras untuk yang tutup */
+  background: #ef4444 !important;
+  /* Merah agar kontras untuk yang tutup */
   border-color: #ef4444 !important;
   color: white !important;
   box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
@@ -103,9 +105,13 @@
   transition: 0.2s;
 }
 
-.sort-wrap select:focus { border-color: #1a5fa8; }
+.sort-wrap select:focus {
+  border-color: #1a5fa8;
+}
 
-.top-bar { display: none; }
+.top-bar {
+  display: none;
+}
 
 .search-wrap input {
   padding: 9px 15px;
@@ -119,9 +125,15 @@
   transition: border 0.2s;
 }
 
-.search-wrap input:focus { border-color: #1a5fa8; }
+.search-wrap input:focus {
+  border-color: #1a5fa8;
+}
 
-.filter-wrap { display: flex; gap: 6px; flex-wrap: wrap; }
+.filter-wrap {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
 
 .filter-btn {
   padding: 6px 15px;
@@ -134,22 +146,101 @@
   transition: all 0.18s;
 }
 
-.fb-semua  { border-color: #888;     color: #888; }
-.fb-semua.active,  .fb-semua:hover  { background: #888;     color: #fff; border-color: #888; }
-.fb-paud   { border-color: #d4960a;  color: #d4960a; }
-.fb-paud.active,   .fb-paud:hover   { background: #d4960a;  color: #fff; border-color: #d4960a; }
-.fb-sd     { border-color: #c0392b;  color: #c0392b; }
-.fb-sd.active,     .fb-sd:hover     { background: #c0392b;  color: #fff; border-color: #c0392b; }
-.fb-smp    { border-color: #1a5fa8;  color: #1a5fa8; }
-.fb-smp.active,    .fb-smp:hover    { background: #1a5fa8;  color: #fff; border-color: #1a5fa8; }
-.fb-sma    { border-color: #555;     color: #555; }
-.fb-sma.active,    .fb-sma:hover    { background: #555;     color: #fff; border-color: #555; }
-.fb-smk    { border-color: #6f42c1;  color: #6f42c1; }
-.fb-smk.active,    .fb-smk:hover    { background: #6f42c1;  color: #fff; border-color: #6f42c1; }
-.fb-kesetaraan { border-color: #0e7c61; color: #0e7c61; }
-.fb-kesetaraan.active, .fb-kesetaraan:hover { background: #0e7c61; color: #fff; border-color: #0e7c61; }
-.fb-slb    { border-color: #b05a00;  color: #b05a00; }
-.fb-slb.active,    .fb-slb:hover    { background: #b05a00;  color: #fff; border-color: #b05a00; }
+.fb-semua {
+  border-color: #888;
+  color: #888;
+}
+
+.fb-semua.active,
+.fb-semua:hover {
+  background: #888;
+  color: #fff;
+  border-color: #888;
+}
+
+.fb-paud {
+  border-color: #d4960a;
+  color: #d4960a;
+}
+
+.fb-paud.active,
+.fb-paud:hover {
+  background: #d4960a;
+  color: #fff;
+  border-color: #d4960a;
+}
+
+.fb-sd {
+  border-color: #c0392b;
+  color: #c0392b;
+}
+
+.fb-sd.active,
+.fb-sd:hover {
+  background: #c0392b;
+  color: #fff;
+  border-color: #c0392b;
+}
+
+.fb-smp {
+  border-color: #1a5fa8;
+  color: #1a5fa8;
+}
+
+.fb-smp.active,
+.fb-smp:hover {
+  background: #1a5fa8;
+  color: #fff;
+  border-color: #1a5fa8;
+}
+
+.fb-sma {
+  border-color: #555;
+  color: #555;
+}
+
+.fb-sma.active,
+.fb-sma:hover {
+  background: #555;
+  color: #fff;
+  border-color: #555;
+}
+
+.fb-smk {
+  border-color: #6f42c1;
+  color: #6f42c1;
+}
+
+.fb-smk.active,
+.fb-smk:hover {
+  background: #6f42c1;
+  color: #fff;
+  border-color: #6f42c1;
+}
+
+.fb-kesetaraan {
+  border-color: #0e7c61;
+  color: #0e7c61;
+}
+
+.fb-kesetaraan.active,
+.fb-kesetaraan:hover {
+  background: #0e7c61;
+  color: #fff;
+  border-color: #0e7c61;
+}
+
+.fb-slb {
+  border-color: #b05a00;
+  color: #b05a00;
+}
+
+.fb-slb.active,
+.fb-slb:hover {
+  background: #b05a00;
+  color: #fff;
+  border-color: #b05a00;
+}
 
 .periode-label {
   font-size: 13px;
@@ -162,7 +253,9 @@
   border-bottom: 1.5px solid #eef1f6;
 }
 
-.periode-label:first-child { margin-top: 0; }
+.periode-label:first-child {
+  margin-top: 0;
+}
 
 .grid {
   display: grid;
@@ -180,9 +273,13 @@
   transition: box-shadow 0.2s;
 }
 
-.card:hover { box-shadow: 0 4px 16px rgba(26,63,160,0.10); }
+.card:hover {
+  box-shadow: 0 4px 16px rgba(26, 63, 160, 0.10);
+}
 
-.card-banner { height: 7px; }
+.card-banner {
+  height: 7px;
+}
 
 .card-img-wrap {
   width: 100%;
@@ -215,13 +312,33 @@
   width: fit-content;
 }
 
-.banner-paud       { background: #d4960a; }
-.banner-sd         { background: #c0392b; }
-.banner-smp        { background: #1a5fa8; }
-.banner-sma        { background: #555555; }
-.banner-smk        { background: #6f42c1; }
-.banner-kesetaraan { background: #0e7c61; }
-.banner-slb        { background: #b05a00; }
+.banner-paud {
+  background: #d4960a;
+}
+
+.banner-sd {
+  background: #c0392b;
+}
+
+.banner-smp {
+  background: #1a5fa8;
+}
+
+.banner-sma {
+  background: #555555;
+}
+
+.banner-smk {
+  background: #6f42c1;
+}
+
+.banner-kesetaraan {
+  background: #0e7c61;
+}
+
+.banner-slb {
+  background: #b05a00;
+}
 
 .card-title {
   font-size: 13px;
@@ -273,7 +390,10 @@
   transition: background 0.18s, color 0.18s;
 }
 
-.btn-daftar:hover { background: #1a5fa8; color: #fff; }
+.btn-daftar:hover {
+  background: #1a5fa8;
+  color: #fff;
+}
 
 .btn-daftar.ditutup {
   border-color: #c8cdd6;
@@ -306,11 +426,12 @@
 
 /* Kartu yang sudah lewat */
 .card-closed {
-    opacity: 0.65;
-    filter: grayscale(0.3);
-    transition: 0.3s ease;
+  opacity: 0.65;
+  filter: grayscale(0.3);
+  transition: 0.3s ease;
 }
+
 .card-closed:hover {
-    opacity: 0.9;
-    filter: grayscale(0);
+  opacity: 0.9;
+  filter: grayscale(0);
 }
