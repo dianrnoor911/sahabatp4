@@ -157,8 +157,15 @@ async function trackView(materiId, topikIndex) {
             const data = doc.data();
             const topics = data.topik || [];
             if (topics[topikIndex]) {
-                topics[topikIndex].views = (topics[topikIndex].views || 0) + 1;
+                const currentViews = (topics[topikIndex].views || 0) + 1;
+                topics[topikIndex].views = currentViews;
                 await docRef.update({ topik: topics });
+                
+                // Update views count in DOM immediately for instant feedback
+                const viewEl = document.getElementById(`views-${materiId}-${topikIndex}`);
+                if (viewEl) {
+                    viewEl.innerHTML = `👁️ ${currentViews} views`;
+                }
             }
         }
     } catch (e) { console.error("Gagal track view:", e); }
@@ -217,7 +224,7 @@ function openMateriModal(id) {
                 <p class="topik-name">${getLinkTypeIcon(t.link)} ${t.nama || 'Tanpa Nama'}</p>
                 <p class="topik-desc">${t.deskripsi || ''}</p>
                 <div style="display:flex; gap:10px; margin-top:8px;">
-                    <span style="font-size:10px; color:#94a3b8; display:flex; align-items:center; gap:3px;">👁️ ${t.views || 0} views</span>
+                    <span id="views-${p.id}-${idx}" style="font-size:10px; color:#94a3b8; display:flex; align-items:center; gap:3px;">👁️ ${t.views || 0} views</span>
                 </div>
               </div>
               <div class="topik-link" style="display:flex; flex-direction:column; gap:5px;">
