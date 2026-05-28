@@ -1,6 +1,7 @@
 const firebaseConfig = {
   apiKey: "AIzaSyCXhXyrajishlP0q9j6QggQWtWW3oKuPhc",
   authDomain: "sahabat-p4.firebaseapp.com",
+  databaseURL: "https://sahabat-p4-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId: "sahabat-p4",
   storageBucket: "sahabat-p4.firebasestorage.app",
   messagingSenderId: "835411215925",
